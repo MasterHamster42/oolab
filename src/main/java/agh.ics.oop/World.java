@@ -2,20 +2,27 @@ package agh.ics.oop;
 
 public class World {
     public static void main(String[] args){
-        System.out.println("System wystartowal");
-        String[] commends = {"f", "b", "l", "r"};
-        run(string_to_direction(commends));
-        System.out.println();
-        System.out.println("System zakonczyl dzialanie");
-
-        Vector2d position1 = new Vector2d(1,2);
-        System.out.println(position1);
-        Vector2d position2 = new Vector2d(-2,1);
-        System.out.println(position2);
-        System.out.println(position1.add(position2));
-        MapDirection direction1 = MapDirection.SOUTH;
-        System.out.println(direction1.next());
-        System.out.println(direction1.toUnitVector());
+//        System.out.println("System wystartowal");
+//        String[] commends = {"f", "b", "l", "r"};
+//        run(string_to_direction(commends));
+//        System.out.println();
+//        System.out.println("System zakonczyl dzialanie");
+//
+//        Vector2d position1 = new Vector2d(1,2);
+//        System.out.println(position1);
+//        Vector2d position2 = new Vector2d(-2,1);
+//        System.out.println(position2);
+//        System.out.println(position1.add(position2));
+//        MapDirection direction1 = MapDirection.SOUTH;
+//        System.out.println(direction1.next());
+//        System.out.println(direction1.toUnitVector());
+        Animal animal1 = new Animal();
+        OptionsParser optionsParser = new OptionsParser();
+        MoveDirection[] directions = optionsParser.parse(args);
+        for (MoveDirection direction : directions) {
+            animal1.move(direction);
+        }
+        System.out.println(animal1.toString());
     }
     public static void run(Direction[] commends){
         for (int i = 0; i < commends.length; i++) {
