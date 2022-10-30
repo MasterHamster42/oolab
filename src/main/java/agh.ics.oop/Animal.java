@@ -3,13 +3,26 @@ package agh.ics.oop;
 public class Animal {
     private MapDirection my_orientation = MapDirection.NORTH;
     private Vector2d my_position = new Vector2d(2, 2);
+    private IWorldMap map;
 
     public Animal(){
+    }
+    public Animal(IWorldMap map){
+        this.map = map;
+    };
+
+    Animal(IWorldMap map, Vector2d initialPosition){
+        this.map = map;
+        this. my_position = initialPosition;
+    }
+    public Vector2d getMy_position(){
+        return this.my_position;
     }
 
     @Override
     public String toString() {
-        return my_position.toString() +" "+ my_orientation.toString();
+//        return my_position.toString() +" "+ my_orientation.toString();
+        return my_position.toString();
     }
 
     public boolean isAt(Vector2d position){
@@ -24,20 +37,10 @@ public class Animal {
                 my_orientation = my_orientation.next();
                 break;
             case FORWARD:
-                switch (my_orientation){
-                    case EAST -> my_position =  my_position.add((my_position.precedes(new Vector2d(3,4)))?new Vector2d(1, 0):new Vector2d(0, 0));
-                    case WEST -> my_position =  my_position.add(my_position.follows(new Vector2d(1,0))?new Vector2d(-1, 0):new Vector2d(0, 0));
-                    case NORTH -> my_position =  my_position.add(my_position.precedes(new Vector2d(4,3))?new Vector2d(0, 1):new Vector2d(0, 0));
-                    case SOUTH -> my_position =  my_position.add(my_position.follows(new Vector2d(0,1))?new Vector2d(0, -1):new Vector2d(0, 0));
-                }
+                my_position =  map.canMoveTo(my_position.add(my_orientation.toUnitVector()))?my_position.add(my_orientation.toUnitVector()): my_position;
                 break;
             case BACKWARD:
-                switch (my_orientation){
-                    case EAST -> my_position =  my_position.add(my_position.precedes(new Vector2d(3,4))?new Vector2d(1, 0):new Vector2d(0, 0));
-                    case WEST -> my_position =  my_position.add(my_position.follows(new Vector2d(1,0))?new Vector2d(-1, 0):new Vector2d(0, 0));
-                    case SOUTH -> my_position =  my_position.add(my_position.precedes(new Vector2d(4,3))?new Vector2d(0, 1):new Vector2d(0, 0));
-                    case NORTH -> my_position =  my_position.add(my_position.follows(new Vector2d(0,1))?new Vector2d(0, -1):new Vector2d(0, 0));
-                }
+                my_position =  map.canMoveTo(my_position.add(my_orientation.toUnitVector().opposite()))?my_position.add(my_orientation.toUnitVector().opposite()): my_position;
                 break;
         }
     }
