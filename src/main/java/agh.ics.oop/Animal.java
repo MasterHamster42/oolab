@@ -1,8 +1,8 @@
 package agh.ics.oop;
 
-public class Animal {
+public class Animal implements IMapElement{
     private MapDirection my_orientation = MapDirection.NORTH;
-    private Vector2d my_position = new Vector2d(2, 2);
+    private Vector2d Position = new Vector2d(2, 2);
     private IWorldMap map;
 
     public Animal(){
@@ -13,20 +13,19 @@ public class Animal {
 
     Animal(IWorldMap map, Vector2d initialPosition){
         this.map = map;
-        this. my_position = initialPosition;
+        this.Position = initialPosition;
     }
-    public Vector2d getMy_position(){
-        return this.my_position;
+    public Vector2d getPosition(){
+        return this.Position;
     }
 
     @Override
     public String toString() {
-//        return my_position.toString() +" "+ my_orientation.toString();
-        return my_position.toString();
+        return my_orientation.toString();
     }
 
     public boolean isAt(Vector2d position){
-        return my_position.equals(position);
+        return Position.equals(position);
     }
     public void move(MoveDirection direction){
         switch (direction){
@@ -37,10 +36,10 @@ public class Animal {
                 my_orientation = my_orientation.next();
                 break;
             case FORWARD:
-                my_position =  map.canMoveTo(my_position.add(my_orientation.toUnitVector()))?my_position.add(my_orientation.toUnitVector()): my_position;
+                Position =  map.canMoveTo(Position.add(my_orientation.toUnitVector()))? Position.add(my_orientation.toUnitVector()): Position;
                 break;
             case BACKWARD:
-                my_position =  map.canMoveTo(my_position.add(my_orientation.toUnitVector().opposite()))?my_position.add(my_orientation.toUnitVector().opposite()): my_position;
+                Position =  map.canMoveTo(Position.add(my_orientation.toUnitVector().opposite()))? Position.add(my_orientation.toUnitVector().opposite()): Position;
                 break;
         }
     }
