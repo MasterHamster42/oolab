@@ -15,13 +15,13 @@ public class RectangularMap extends AbstractWorldMap{
         return position.precedes(this.size) && position.follows(new Vector2d(0,0));
     }
 
-    @Override
-    public Object objectAt(Vector2d position) {
-        for (Animal animal: animals) {
-            if (animal.isAt(position)) return animal;
-        }
-        return null;
-    }
+//    @Override
+//    public Object objectAt(Vector2d position) {
+//        for (Animal animal: animals) {
+//            if (animal.isAt(position)) return animal;
+//        }
+//        return null;
+//    }
 
     @Override
     protected Vector2d[] mapSize() {

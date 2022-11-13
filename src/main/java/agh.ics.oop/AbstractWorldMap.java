@@ -1,19 +1,20 @@
 package agh.ics.oop;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
-public abstract class AbstractWorldMap implements IWorldMap{
-    protected ArrayList<Animal> animals = new ArrayList<Animal>();
-    protected Object[] walkable = {Grass.class};
+public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver{
+    protected Map<Vector2d, AbstractMapObject> mapObjects = new HashMap<>();
+    protected String[] walkable = {"Grass"};
 
     @Override
     public boolean canMoveTo(Vector2d position) {
         if (!coordinateOnMap(position)) return false;
         if (isOccupied(position)){
-            Object obj_clas = objectAt(position).getClass();
+            String type = ((AbstractMapObject)objectAt(position)).getType();
             for (Object elem: walkable) {
-                if(elem.equals(obj_clas)) return true;
+                if(elem.equals(type)) return true;
             }
             return false;
         }
@@ -21,10 +22,17 @@ public abstract class AbstractWorldMap implements IWorldMap{
     }
     protected abstract boolean coordinateOnMap(Vector2d position);
 
+    public void positionChanged(Vector2d oldPosition, Vector2d newPosition){
+        AbstractMapObject obj = mapObjects.remove(oldPosition);
+        mapObjects.put(newPosition, obj);
+    }
+
     @Override
     public boolean place(Animal animal) {
         if (canMoveTo(animal.getPosition())){
-            animals.add(animal);
+//            animals.add(animal);
+            mapObjects.put(animal.getPosition(), animal);
+            animal.addObserver(this);
             return true;
         }
         return false;
@@ -32,11 +40,13 @@ public abstract class AbstractWorldMap implements IWorldMap{
 
     @Override
     public boolean isOccupied(Vector2d position) {
-        return  objectAt(position) != null;
+        return  mapObjects.containsKey(position);
     }
 
     @Override
-    public abstract Object objectAt(Vector2d position);
+    public Object objectAt(Vector2d position){
+        return mapObjects.get(position);
+    }
 
     protected abstract Vector2d[] mapSize();
 

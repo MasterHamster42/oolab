@@ -1,17 +1,11 @@
 package agh.ics.oop;
 
-public class Grass implements IMapElement{
-    private Vector2d Position;
+public class Grass extends AbstractMapObject{
 
     public Grass(Vector2d position){
-        Position = position;
+        this.position = position;
+        this.type = "Grass";
     }
-
-    public Vector2d getPosition() {
-        return Position;
-    }
-
-    public boolean isAt(Vector2d position){return Position.equals(position);}
 
     @Override
     public String toString() {
