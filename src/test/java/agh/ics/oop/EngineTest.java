@@ -22,5 +22,20 @@ public class EngineTest {
                 assertTrue(map.isOccupied(final_vectors[i][j]));
             }
         }
+        String[] moves_wrong = {"f", "g", "g"};
+        MoveDirection[] expected = {MoveDirection.FORWARD};
+        boolean wasException = false;
+        MoveDirection[] moveDirections;
+        try {
+            moveDirections = new OptionsParser().parse(moves_wrong);
+            assertArrayEquals(expected, moveDirections);
+        }
+        catch (IllegalArgumentException illegalArgumentException){
+            wasException = true;
+        }
+        finally {
+            assertTrue(wasException);
+        }
+
     }
 }

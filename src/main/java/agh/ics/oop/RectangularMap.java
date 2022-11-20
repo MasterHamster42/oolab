@@ -24,7 +24,7 @@ public class RectangularMap extends AbstractWorldMap{
 //    }
 
     @Override
-    protected Vector2d[] mapSize() {
+    public Vector2d[] mapSize() {
         return new Vector2d[]{new Vector2d(0,0), this.size};
     }
 

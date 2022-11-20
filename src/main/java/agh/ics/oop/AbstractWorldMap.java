@@ -1,12 +1,12 @@
 package agh.ics.oop;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver{
     protected Map<Vector2d, AbstractMapObject> mapObjects = new HashMap<>();
     protected String[] walkable = {"Grass"};
+    protected MapBoundary mapBoundary = new MapBoundary(this);
 
     @Override
     public boolean canMoveTo(Vector2d position) {
@@ -28,14 +28,17 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
     }
 
     @Override
-    public boolean place(Animal animal) {
+    public boolean place(Animal animal) throws IllegalArgumentException{
         if (canMoveTo(animal.getPosition())){
-//            animals.add(animal);
             mapObjects.put(animal.getPosition(), animal);
+            mapBoundary.addObject(animal);
             animal.addObserver(this);
+            animal.addObserver(mapBoundary);
             return true;
         }
-        return false;
+        else {
+            throw new IllegalArgumentException("Can't place animal at:"+animal.getPosition());
+        }
     }
 
     @Override
@@ -44,11 +47,11 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
     }
 
     @Override
-    public Object objectAt(Vector2d position){
+    public AbstractMapObject objectAt(Vector2d position){
         return mapObjects.get(position);
     }
 
-    protected abstract Vector2d[] mapSize();
+    public abstract Vector2d[] mapSize();
 
     @Override
     public String toString() {

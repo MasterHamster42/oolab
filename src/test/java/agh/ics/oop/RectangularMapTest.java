@@ -25,9 +25,23 @@ public class RectangularMapTest {
         Animal ani3 = new Animal(map,new Vector2d(2,2));
         assertTrue(map.place(ani1));
         assertEquals(map.objectAt(new Vector2d(2,2)), ani1);
-        assertFalse(map.place(ani2));
+        boolean wasThrown1 = false;
+        try {
+            map.place(ani2);
+        }
+        catch (IllegalArgumentException illegalArgumentException){
+            wasThrown1 = true;
+        }
+        assertTrue(wasThrown1);
         assertNull(map.objectAt(new Vector2d(7, 2)));
-        assertFalse(map.place(ani3));
+        boolean wasThrown2 = false;
+        try {
+            map.place(ani3);
+        }
+        catch (IllegalArgumentException illegalArgumentException){
+            wasThrown2 = true;
+        }
+        assertTrue(wasThrown2);
         assertEquals(map.objectAt(new Vector2d(2,2)), ani1);
     }
 

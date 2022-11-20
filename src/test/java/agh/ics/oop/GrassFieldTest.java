@@ -26,7 +26,14 @@ public class GrassFieldTest {
         assertEquals(map.objectAt(new Vector2d(2,2)), ani1);
         assertTrue(map.place(ani2));
         assertEquals(map.objectAt(new Vector2d(7, 2)), ani2);
-        assertFalse(map.place(ani3));
+        boolean wasThrown = false;
+        try {
+            map.place(ani3);
+        }
+        catch (IllegalArgumentException illegalArgumentException){
+            wasThrown = true;
+        }
+        assertTrue(wasThrown);
         assertEquals(map.objectAt(new Vector2d(2,2)), ani1);
     }
 

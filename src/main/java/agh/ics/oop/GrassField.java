@@ -23,7 +23,9 @@ public class GrassField extends AbstractWorldMap{
             int y = ThreadLocalRandom.current().nextInt(0, (int) Math.sqrt(AmountOfGrass*10));
             place_grass_at = new Vector2d(x,y);
         }while (isOccupied(place_grass_at));
-        mapObjects.put(place_grass_at ,new Grass(place_grass_at));
+        Grass grass = new Grass(place_grass_at);
+        mapObjects.put(place_grass_at ,grass);
+        mapBoundary.addObject(grass);
     }
 
     @Override
@@ -48,14 +50,8 @@ public class GrassField extends AbstractWorldMap{
     }
     
 
-    protected Vector2d[] mapSize(){
-        Vector2d right_corner = new Vector2d(Integer.MIN_VALUE, Integer.MIN_VALUE);
-        Vector2d left_corner = new Vector2d(Integer.MAX_VALUE, Integer.MAX_VALUE);
-
-        for (AbstractMapObject mapObject: mapObjects.values()) {
-            right_corner = right_corner.upperRight(mapObject.getPosition());
-            right_corner = right_corner.lowerLeft(mapObject.getPosition());
-        }
-        return new Vector2d[]{left_corner, right_corner};
+    public Vector2d[] mapSize(){
+        mapBoundary.updateCorners();
+        return mapBoundary.getCorners();
     }
 }
