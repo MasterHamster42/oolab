@@ -43,6 +43,8 @@ public class Animal extends AbstractMapObject{
     }
 
     public void move(MoveDirection direction){
+        System.out.println("animal moving");
+        System.out.println(direction);
         Vector2d oldPosition = this.position;
         switch (direction) {
             case LEFT -> my_orientation = my_orientation.previous();
@@ -52,9 +54,25 @@ public class Animal extends AbstractMapObject{
             case BACKWARD ->
                     position = map.canMoveTo(position.add(my_orientation.toUnitVector().opposite())) ? position.add(my_orientation.toUnitVector().opposite()) : position;
         }
-        if (!oldPosition.equals(this.position)){
-            this.positionChanged(oldPosition, this.position);
-        }
+
+        this.positionChanged(oldPosition, this.position);
+
     }
 
+    @Override
+    public String getResourcePath() {
+        String path = "";
+        switch (my_orientation){
+            case WEST -> path =  "src/main/resources/right.png";
+            case SOUTH -> path = "src/main/resources/down.png";
+            case EAST -> path =  "src/main/resources/left.png";
+            case NORTH -> path =  "src/main/resources/up.png";
+        }
+        return path;
+    }
+
+    @Override
+    public String getCaption() {
+        return position.toString();
+    }
 }

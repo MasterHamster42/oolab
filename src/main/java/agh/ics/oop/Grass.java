@@ -11,4 +11,14 @@ public class Grass extends AbstractMapObject{
     public String toString() {
         return "*";
     }
+
+    @Override
+    public String getResourcePath() {
+        return "src/main/resources/grass.png";
+    }
+
+    @Override
+    public String getCaption() {
+        return "grass";
+    }
 }

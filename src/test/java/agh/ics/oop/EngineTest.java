@@ -16,7 +16,7 @@ public class EngineTest {
             MoveDirection[] directions = new OptionsParser().parse(moves[i]);
             IWorldMap map = new RectangularMap(10, 5);
             Vector2d[] positions = starting_vectors[i];
-            IEngine engine = new SimulationEngine(directions, map, positions);
+            IEngine engine = new SimulationEngine(directions, map, positions, 10);
             engine.run();
             for (int j=0; j< starting_vectors[i].length; j++) {
                 assertTrue(map.isOccupied(final_vectors[i][j]));
